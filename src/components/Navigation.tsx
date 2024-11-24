@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface MenuItem
 {
     label: string;
+    path?: string;
     subItems?: MenuItem[];
 }
 
@@ -10,14 +12,14 @@ const menuOptions: MenuItem[] = [
     {
         label: 'Properties',
         subItems: [
-            { label: 'Registration' },
-            { label: 'Search and listing' },
+            { label: 'Registration', path: '/properties/registration' },
+            { label: 'Search and listing', path: '/properties/search' },
         ],
     },
     {
         label: 'Customers',
         subItems: [
-            { label: 'Registration' },
+            { label: 'Registration', path: '/customers/registration' },
         ],
     },
 ];
@@ -52,12 +54,12 @@ const Navigation: React.FC = () =>
                             <ul style={{ listStyleType: 'none', margin: 0, paddingLeft: '1rem' }}>
                                 {menu.subItems.map((subItem) => (
                                     <li key={subItem.label} style={{ marginTop: '0.3rem' }}>
-                                        <a
-                                            href={`#${subItem.label.replace(/\s+/g, '-').toLowerCase()}`}
+                                        <Link
+                                            to={subItem.path || '#'}
                                             style={{ textDecoration: 'none', color: '#007bff' }}
                                         >
                                             {subItem.label}
-                                        </a>
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>
@@ -70,3 +72,4 @@ const Navigation: React.FC = () =>
 };
 
 export default Navigation;
+

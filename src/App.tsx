@@ -1,60 +1,27 @@
-import { useEffect, useState } from "react";
-import type { Schema } from "../amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import Navigation from "./components/Navigation";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navigation from './components/Navigation';
 
-const client = generateClient<Schema>();
 
-function App()
+// Empty Page Components
+const PropertiesRegistration = () => <div><h1>Properties Registration</h1></div>;
+const PropertiesSearch = () => <div><h1>Properties Search and Listing</h1></div>;
+const CustomersRegistration = () => <div><h1>Customers Registration</h1></div>;
+
+const App: React.FC = () =>
 {
-  const { user, signOut } = useAuthenticator();
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-
-  useEffect(() =>
-  {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
-    });
-  }, []);
-
-
-  function deleteTodo(id: string)
-  {
-    client.models.Todo.delete({ id })
-  }
-
-  function createTodo()
-  {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
-  }
-
   return (
-    <main>
-      <div>
-        <header>
-          <h1>Main Page</h1>
-        </header>
-        <Navigation />
-      </div>
-      <h1>{user?.signInDetails?.loginId}'s todos</h1>
-      <button onClick={createTodo}>+ new</button>
-      <ul>
-        {todos.map((todo) => (<li
-          onClick={() => deleteTodo(todo.id)}
-          key={todo.id}>{todo.content}</li>
-        ))}
-      </ul>
-      <div>
-        🥳 App successfully hosted. Try creating a new todo.
-        <br />
-        <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
-          Review next step of this tutorial.
-        </a>
-      </div>
-      <button onClick={signOut}>Sign out</button>
-    </main>
+    <Router>
+      <Navigation />
+      <main style={{ padding: '1rem' }}>
+        <Routes>
+          <Route path="/properties/registration" element={<PropertiesRegistration />} />
+          <Route path="/properties/search" element={<PropertiesSearch />} />
+          <Route path="/customers/registration" element={<CustomersRegistration />} />
+        </Routes>
+      </main>
+    </Router>
   );
-}
+};
 
 export default App;
