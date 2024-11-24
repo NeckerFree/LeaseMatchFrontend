@@ -10,13 +10,14 @@ const App: React.FC = () =>
   return (
     <Router>
       <Navigation />
-      <main style={{ padding: '1rem' }}>
+      <div style={{ paddingTop: '3.5rem' }}>
+        {/* Ensures content does not overlap the navbar */}
         <Routes>
           <Route path="/properties/registration" element={<PropertiesRegistration />} />
           <Route path="/properties/search" element={<PropertiesSearch />} />
           <Route path="/customers/registration" element={<CustomersRegistration />} />
         </Routes>
-      </main>
+      </div>
     </Router>
   );
 };

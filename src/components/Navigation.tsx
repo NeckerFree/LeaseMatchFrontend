@@ -34,30 +34,21 @@ const Navigation: React.FC = () =>
     };
 
     return (
-        <nav style={{ padding: '1rem', background: '#f4f4f4', borderBottom: '1px solid #ccc' }}>
-            <ul style={{ listStyleType: 'none', margin: 0, padding: 0 }}>
+        <nav style={styles.nav}>
+            <ul style={styles.menu}>
                 {menuOptions.map((menu) => (
-                    <li key={menu.label} style={{ marginBottom: '0.5rem' }}>
+                    <li key={menu.label} style={styles.menuItem}>
                         <div
                             onClick={() => menu.subItems && handleMenuToggle(menu.label)}
-                            style={{
-                                cursor: 'pointer',
-                                fontWeight: 'bold',
-                                padding: '0.5rem',
-                                background: '#eaeaea',
-                                borderRadius: '5px',
-                            }}
+                            style={styles.menuLink}
                         >
                             {menu.label}
                         </div>
                         {menu.subItems && openMenu === menu.label && (
-                            <ul style={{ listStyleType: 'none', margin: 0, paddingLeft: '1rem' }}>
+                            <ul style={styles.subMenu}>
                                 {menu.subItems.map((subItem) => (
-                                    <li key={subItem.label} style={{ marginTop: '0.3rem' }}>
-                                        <Link
-                                            to={subItem.path || '#'}
-                                            style={{ textDecoration: 'none', color: '#007bff' }}
-                                        >
+                                    <li key={subItem.label} style={styles.subMenuItem}>
+                                        <Link to={subItem.path || '#'} style={styles.subMenuLink}>
                                             {subItem.label}
                                         </Link>
                                     </li>
@@ -71,5 +62,56 @@ const Navigation: React.FC = () =>
     );
 };
 
-export default Navigation;
+const styles: { [key: string]: React.CSSProperties } = {
+    nav: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'fixed',
+        top: 0,
+        width: '100%',
+        backgroundColor: '#f4f4f4',
+        padding: '0.5rem 1rem',
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        zIndex: 1000,
+    },
+    menu: {
+        display: 'flex',
+        listStyleType: 'none',
+        margin: 0,
+        padding: 0,
+        gap: '2rem',
+    },
+    menuItem: {
+        position: 'relative',
+    },
+    menuLink: {
+        cursor: 'pointer',
+        fontWeight: 'bold',
+        textDecoration: 'none',
+        color: '#333',
+    },
+    subMenu: {
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        backgroundColor: '#fff',
+        listStyleType: 'none',
+        margin: 0,
+        padding: '0.5rem',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        zIndex: 1001,
+    },
+    subMenuItem: {
+        marginBottom: '0.5rem',
+    },
+    subMenuLink: {
+        textDecoration: 'none',
+        color: '#007bff',
+        fontSize: '0.9rem',
+    },
+};
 
+export default Navigation;
