@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import Navigation from "./components/Navigation";
 
 const client = generateClient<Schema>();
 
@@ -30,6 +31,12 @@ function App()
 
   return (
     <main>
+      <div>
+        <header>
+          <h1>Main Page</h1>
+        </header>
+        <Navigation />
+      </div>
       <h1>{user?.signInDetails?.loginId}'s todos</h1>
       <button onClick={createTodo}>+ new</button>
       <ul>
