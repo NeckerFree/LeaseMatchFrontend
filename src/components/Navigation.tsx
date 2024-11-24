@@ -1,77 +1,70 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 interface MenuItem
 {
     label: string;
-    children?: MenuItem[];
+    subItems?: MenuItem[];
 }
 
-const menuItems: MenuItem[] = [
+const menuOptions: MenuItem[] = [
     {
-        label: "Properties",
-        children: [
-            { label: "Registration" },
-            { label: "Search and Listing" },
+        label: 'Properties',
+        subItems: [
+            { label: 'Registration' },
+            { label: 'Search and listing' },
         ],
     },
     {
-        label: "Customers",
-        children: [
-            { label: "Registration" },
+        label: 'Customers',
+        subItems: [
+            { label: 'Registration' },
         ],
     },
 ];
 
 const Navigation: React.FC = () =>
 {
-    const [openItems, setOpenItems] = useState<{ [key: string]: boolean }>({});
+    const [openMenu, setOpenMenu] = useState<string | null>(null);
 
-    const toggleItem = (label: string) =>
+    const handleMenuToggle = (menuLabel: string) =>
     {
-        setOpenItems((prev) => ({
-            ...prev,
-            [label]: !prev[label],
-        }));
-    };
-
-    const renderMenu = (items: MenuItem[], parentKey: string = "") =>
-    {
-        return (
-            <ul>
-                {items.map((item, index) =>
-                {
-                    const key = `${parentKey}${item.label}-${index}`;
-                    const hasChildren = !!item.children;
-
-                    return (
-                        <li key={key}>
-                            <div
-                                onClick={() => hasChildren && toggleItem(key)}
-                                style={{ cursor: hasChildren ? "pointer" : "default" }}
-                            >
-                                {item.label}
-                                {hasChildren && (
-                                    <span style={{ marginLeft: "5px" }}>
-                                        {openItems[key] ? "-" : "+"}
-                                    </span>
-                                )}
-                            </div>
-                            {hasChildren && openItems[key] && (
-                                <div style={{ marginLeft: "20px" }}>
-                                    {renderMenu(item.children!, key)}
-                                </div>
-                            )}
-                        </li>
-                    );
-                })}
-            </ul>
-        );
+        setOpenMenu(openMenu === menuLabel ? null : menuLabel);
     };
 
     return (
-        <nav>
-            <h3>Navigation</h3>
-            {renderMenu(menuItems)}
+        <nav style={{ padding: '1rem', background: '#f4f4f4', borderBottom: '1px solid #ccc' }}>
+            <ul style={{ listStyleType: 'none', margin: 0, padding: 0 }}>
+                {menuOptions.map((menu) => (
+                    <li key={menu.label} style={{ marginBottom: '0.5rem' }}>
+                        <div
+                            onClick={() => menu.subItems && handleMenuToggle(menu.label)}
+                            style={{
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                                padding: '0.5rem',
+                                background: '#eaeaea',
+                                borderRadius: '5px',
+                            }}
+                        >
+                            {menu.label}
+                        </div>
+                        {menu.subItems && openMenu === menu.label && (
+                            <ul style={{ listStyleType: 'none', margin: 0, paddingLeft: '1rem' }}>
+                                {menu.subItems.map((subItem) => (
+                                    <li key={subItem.label} style={{ marginTop: '0.3rem' }}>
+                                        <a
+                                            href={`#${subItem.label.replace(/\s+/g, '-').toLowerCase()}`}
+                                            style={{ textDecoration: 'none', color: '#007bff' }}
+                                        >
+                                            {subItem.label}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </li>
+                ))}
+            </ul>
         </nav>
     );
 };
