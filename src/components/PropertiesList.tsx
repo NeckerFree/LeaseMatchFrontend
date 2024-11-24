@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-
 interface Property
 {
     id: string;
@@ -17,12 +16,14 @@ interface Property
     availability: string;
     Amenities: string;
 }
+
 const PropertiesList: React.FC = () =>
 {
     const [properties, setProperties] = useState<Property[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const [query, setQuery] = useState<string>("");
+    const [cityQuery, setCityQuery] = useState<string>("");
+    const [countryQuery, setCountryQuery] = useState<string>("");
 
     const fetchProperties = async () =>
     {
@@ -30,9 +31,15 @@ const PropertiesList: React.FC = () =>
         setError(null);
         try
         {
-            const response = await axios.get(`https://yduv27basj.execute-api.us-east-1.amazonaws.com/prod/properties`, {
-                params: { search: query },
-            });
+            const response = await axios.get(
+                `https://yduv27basj.execute-api.us-east-1.amazonaws.com/prod/properties`,
+                {
+                    params: {
+                        city: cityQuery,
+                        country: countryQuery,
+                    },
+                }
+            );
             setProperties(response.data);
         } catch (err)
         {
@@ -46,16 +53,27 @@ const PropertiesList: React.FC = () =>
     return (
         <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
             <h1>Property Search</h1>
-            <div style={{ marginBottom: "20px" }}>
+            <div style={{ marginBottom: "20px", display: "flex", gap: "10px" }}>
                 <input
                     type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Search by city or type..."
+                    value={cityQuery}
+                    onChange={(e) => setCityQuery(e.target.value)}
+                    placeholder="Search by city..."
                     style={{
                         padding: "10px",
-                        width: "300px",
-                        marginRight: "10px",
+                        width: "200px",
+                        borderRadius: "5px",
+                        border: "1px solid #ccc",
+                    }}
+                />
+                <input
+                    type="text"
+                    value={countryQuery}
+                    onChange={(e) => setCountryQuery(e.target.value)}
+                    placeholder="Search by country..."
+                    style={{
+                        padding: "10px",
+                        width: "200px",
                         borderRadius: "5px",
                         border: "1px solid #ccc",
                     }}
