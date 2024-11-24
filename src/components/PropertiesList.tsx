@@ -5,16 +5,17 @@ import React, { useState } from "react";
 interface Property
 {
     id: string;
-    pais: string;
-    ciudad: string;
-    tipo_propiedad: string;
+    country: string;
+    city: string;
+    property_type: string;
     area: string;
-    habitaciones: string;
-    banos: string;
-    precio: string;
-    capacidad: string;
+    rooms: string;
+    bathrooms: string;
+    price: string;
+    capacity: string;
     image: string;
-    Amenidades: string;
+    availability: string;
+    Amenities: string;
 }
 const PropertiesList: React.FC = () =>
 {
@@ -96,29 +97,29 @@ const PropertiesList: React.FC = () =>
                     >
                         <img
                             src={property.image}
-                            alt={property.tipo_propiedad}
+                            alt={property.property_type}
                             style={{ width: "100%", height: "200px", objectFit: "cover" }}
                         />
                         <div style={{ padding: "10px" }}>
-                            <h3>{property.tipo_propiedad}</h3>
+                            <h3>{property.property_type}</h3>
                             <p>
-                                <strong>Location:</strong> {property.ciudad}, {property.pais}
+                                <strong>Location:</strong> {property.city}, {property.country}
                             </p>
                             <p>
-                                <strong>Price:</strong> {property.precio}
+                                <strong>Price:</strong> {property.price}
                             </p>
                             <p>
                                 <strong>Area:</strong> {property.area} sq. ft.
                             </p>
                             <p>
-                                <strong>Rooms:</strong> {property.habitaciones} |{" "}
-                                <strong>Bathrooms:</strong> {property.banos}
+                                <strong>Rooms:</strong> {property.rooms} |{" "}
+                                <strong>Bathrooms:</strong> {property.bathrooms}
                             </p>
                             <p>
-                                <strong>Capacity:</strong> {property.capacidad} people
+                                <strong>Capacity:</strong> {property.capacity} people
                             </p>
                             <p>
-                                <strong>Amenities:</strong> {property.Amenidades}
+                                <strong>Amenities:</strong> {property.Amenities}
                             </p>
                         </div>
                     </div>
